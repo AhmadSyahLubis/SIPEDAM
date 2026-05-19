@@ -16,8 +16,6 @@ class CategoryController extends Controller
             $query->where('type', $request->type);
         }
         
-        // For public/users we should only show active categories.
-        // Admin gets everything automatically or we can enforce ?all=true
         if (!$request->has('all')) {
             $query->where('is_active', true);
         }
@@ -88,7 +86,6 @@ class CategoryController extends Controller
             return response()->json(['success' => false, 'message' => 'Kategori tidak ditemukan'], 404);
         }
 
-        // Prevent deletion if there are attached reports or services
         $hasReports = \App\Models\Report::where('category_id', $id)->exists();
         $hasServices = \App\Models\Service::where('category_id', $id)->exists();
 

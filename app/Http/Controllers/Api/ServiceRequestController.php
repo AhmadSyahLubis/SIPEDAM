@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 class ServiceRequestController extends Controller
 {
-    // Get all services (Admin) or user's services (User)
+
     public function index(Request $request)
     {
         $user = auth('api')->user();
@@ -39,13 +39,12 @@ class ServiceRequestController extends Controller
         ]);
     }
 
-    // Create new service request
     public function store(Request $request)
     {
         $request->validate([
             'category_id' => 'required|exists:categories,id',
             'description' => 'required|string',
-            'attachment' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120' // Max 5MB
+            'attachment' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120'
         ]);
 
         DB::beginTransaction();
@@ -57,7 +56,7 @@ class ServiceRequestController extends Controller
                 'status' => 'menunggu'
             ]);
 
-            // Handle required attachment
+
             if ($request->hasFile('attachment')) {
                 $file = $request->file('attachment');
                 $path = $file->store('attachments/services', 'public');
@@ -70,7 +69,6 @@ class ServiceRequestController extends Controller
                 ]);
             }
 
-            // Create Status History
             $service->statusHistories()->create([
                 'status' => 'menunggu',
                 'notes' => 'Permohonan layanan baru diajukan',
@@ -92,7 +90,6 @@ class ServiceRequestController extends Controller
         }
     }
 
-    // Update status (Admin only)
     public function updateStatus(Request $request, $id)
     {
         if (auth('api')->user()->role !== 'admin') {

@@ -11,19 +11,19 @@ use Illuminate\Support\Facades\Storage;
 
 class ReportController extends Controller
 {
-    // Get all reports (Admin) or user's reports (User)
+
     public function index(Request $request)
     {
         $user = auth('api')->user();
         
         $query = Report::with(['category', 'user', 'attachments', 'statusHistories.changedBy']);
         
-        // Filter if user is not admin
+
         if ($user->role !== 'admin') {
             $query->where('user_id', $user->id);
         }
         
-        // Search & Filter
+
         if ($request->filled('status')) {
             $query->where('status', $request->status);
         }
@@ -43,7 +43,6 @@ class ReportController extends Controller
         ]);
     }
 
-    // Create new report
     public function store(Request $request)
     {
         $request->validate([
@@ -65,7 +64,7 @@ class ReportController extends Controller
                 'status' => 'menunggu'
             ]);
 
-            // Handle Attachment
+
             if ($request->hasFile('attachment')) {
                 $file = $request->file('attachment');
                 $path = $file->store('attachments/reports', 'public');
@@ -78,7 +77,6 @@ class ReportController extends Controller
                 ]);
             }
 
-            // Create Status History
             $report->statusHistories()->create([
                 'status' => 'menunggu',
                 'notes' => 'Laporan baru dibuat',
@@ -100,10 +98,9 @@ class ReportController extends Controller
         }
     }
 
-    // Update status (Admin only)
     public function updateStatus(Request $request, $id)
     {
-        // Only admin can update status
+
         if (auth('api')->user()->role !== 'admin') {
             return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
         }
@@ -143,7 +140,6 @@ class ReportController extends Controller
         }
     }
 
-    // Cancel report (User only, if 'menunggu')
     public function destroy($id)
     {
         $report = Report::findOrFail($id);
@@ -156,7 +152,7 @@ class ReportController extends Controller
             return response()->json(['success' => false, 'message' => 'Tidak dapat membatalkan laporan yang sudah diproses'], 400);
         }
 
-        $report->delete(); // Status histories and attachments cascade on delete from DB level/Logic
+        $report->delete();
 
         return response()->json([
             'success' => true,
