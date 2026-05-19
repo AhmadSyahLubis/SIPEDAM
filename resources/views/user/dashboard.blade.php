@@ -79,7 +79,6 @@
 @stack('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', async function() {
-    // Set Name
     try {
         const userData = JSON.parse(localStorage.getItem('user_data'));
         if (userData && userData.name) {
@@ -87,7 +86,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
     } catch(e) {}
 
-    // Fetch Stats
     try {
         const response = await axios.get('/api/user/dashboard/stats');
         if (response.data.success) {

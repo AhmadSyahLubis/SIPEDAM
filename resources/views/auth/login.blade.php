@@ -68,7 +68,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 const data = await response.json();
                 
                 if (response.ok && data.success) {
-                    // Save token
                     localStorage.setItem('auth_token', data.data.token);
                     localStorage.setItem('user_data', JSON.stringify(data.data.user));
                     

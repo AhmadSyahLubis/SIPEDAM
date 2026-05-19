@@ -96,13 +96,11 @@ document.addEventListener('DOMContentLoaded', async function() {
             const reports = data.reports;
             const services = data.services;
             
-            // Update Stats Cards
             document.getElementById('stat-reports-total').textContent = reports.total;
             document.getElementById('stat-reports-menunggu').textContent = reports.menunggu;
             document.getElementById('stat-services-total').textContent = services.total;
             document.getElementById('stat-services-selesai').textContent = services.selesai;
             
-            // Render Reports Breakdown
             const repsTbody = document.getElementById('reports-breakdown');
             repsTbody.innerHTML = '';
             const repStatuses = ['menunggu', 'diproses', 'selesai'];
@@ -119,7 +117,6 @@ document.addEventListener('DOMContentLoaded', async function() {
                 `;
             });
             
-            // Render Services Breakdown
             const servTbody = document.getElementById('services-breakdown');
             servTbody.innerHTML = '';
             repStatuses.forEach(st => {

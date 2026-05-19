@@ -99,12 +99,10 @@ async function loadProfile() {
         if (response.data.success) {
             const user = response.data.data;
             
-            // Set Form Data
             document.getElementById('name').value = user.name;
             document.getElementById('phone').value = user.phone || '';
             document.getElementById('address').value = user.address || '';
             
-            // Set Display Data
             document.getElementById('profile-name-display').textContent = user.name;
             document.getElementById('profile-nik').textContent = user.nik;
             document.getElementById('profile-email').textContent = user.email;
@@ -136,7 +134,6 @@ async function updateProfile(e) {
     try {
         const response = await axios.put('/api/user/profile', body);
         if (response.data.success) {
-            // Update local storage user data for the top navbar to sync
             let lsData = JSON.parse(localStorage.getItem('user_data') || '{}');
             lsData.name = response.data.data.name;
             localStorage.setItem('user_data', JSON.stringify(lsData));

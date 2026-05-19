@@ -1,14 +1,11 @@
-// Axios global setup
 if (window.axios) {
     window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-    // Add Bearer token to every request
     const token = localStorage.getItem('auth_token');
     if (token) {
         window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
     }
 
-    // Intercept 401 Unauthorized responses to handle token expiration
     window.axios.interceptors.response.use(response => response, error => {
         if (error.response && error.response.status === 401) {
             const errorType = error.response.data.error;
@@ -44,7 +41,6 @@ function handleLogout() {
     }).then(async (result) => {
         if (result.isConfirmed) {
             try {
-                // We'll use fetch since axios setup might be scoped
                 const token = localStorage.getItem('auth_token');
 
                 const response = await fetch('/api/auth/logout', {
@@ -55,7 +51,6 @@ function handleLogout() {
                     }
                 });
 
-                // Clear local storage regardless of API response (token might already be invalid)
                 localStorage.removeItem('auth_token');
                 localStorage.removeItem('user_data');
 
@@ -70,7 +65,6 @@ function handleLogout() {
 
             } catch (error) {
                 console.error('Logout error:', error);
-                // Still clear and redirect
                 localStorage.removeItem('auth_token');
                 localStorage.removeItem('user_data');
                 window.location.href = '/login';

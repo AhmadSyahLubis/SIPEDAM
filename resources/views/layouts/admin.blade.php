@@ -18,7 +18,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-        // Set Auth token synchronously to prevent race conditions during DOMContentLoaded
         const token = localStorage.getItem('auth_token');
         if (token) {
             axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
@@ -136,11 +135,9 @@
                     return;
                 }
                 
-                // Set user details in UI
                 document.getElementById('user-name-display').textContent = userData.name;
                 document.getElementById('user-avatar').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(userData.name)}&background=random`;
                 
-                // Show body
                 document.getElementById('body-content').classList.remove('hidden');
             } catch (e) {
                 window.location.href = '/login';

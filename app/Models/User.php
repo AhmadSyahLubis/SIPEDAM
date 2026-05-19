@@ -38,7 +38,6 @@ class User extends Authenticatable implements JWTSubject
         ];
     }
 
-    // JWT Methods
     public function getJWTIdentifier()
     {
         return $this->getKey();
@@ -51,13 +50,11 @@ class User extends Authenticatable implements JWTSubject
         ];
     }
 
-    // Helpers
     public function isAdmin(): bool
     {
         return $this->role === 'admin';
     }
 
-    // Relationships
     public function reports(): HasMany
     {
         return $this->hasMany(Report::class);

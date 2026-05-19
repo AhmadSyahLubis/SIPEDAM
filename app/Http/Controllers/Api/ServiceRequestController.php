@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\DB;
 
 class ServiceRequestController extends Controller
 {
-
     public function index(Request $request)
     {
         $user = auth('api')->user();
@@ -44,7 +43,7 @@ class ServiceRequestController extends Controller
         $request->validate([
             'category_id' => 'required|exists:categories,id',
             'description' => 'required|string',
-            'attachment' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120'
+            'attachment' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120' // Max 5MB
         ]);
 
         DB::beginTransaction();
@@ -55,7 +54,6 @@ class ServiceRequestController extends Controller
                 'description' => $request->description,
                 'status' => 'menunggu'
             ]);
-
 
             if ($request->hasFile('attachment')) {
                 $file = $request->file('attachment');

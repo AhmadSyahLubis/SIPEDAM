@@ -11,19 +11,16 @@ use Illuminate\Support\Facades\Storage;
 
 class ReportController extends Controller
 {
-
     public function index(Request $request)
     {
         $user = auth('api')->user();
         
         $query = Report::with(['category', 'user', 'attachments', 'statusHistories.changedBy']);
         
-
         if ($user->role !== 'admin') {
             $query->where('user_id', $user->id);
         }
         
-
         if ($request->filled('status')) {
             $query->where('status', $request->status);
         }
@@ -64,7 +61,6 @@ class ReportController extends Controller
                 'status' => 'menunggu'
             ]);
 
-
             if ($request->hasFile('attachment')) {
                 $file = $request->file('attachment');
                 $path = $file->store('attachments/reports', 'public');
@@ -100,7 +96,6 @@ class ReportController extends Controller
 
     public function updateStatus(Request $request, $id)
     {
-
         if (auth('api')->user()->role !== 'admin') {
             return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
         }
@@ -152,7 +147,7 @@ class ReportController extends Controller
             return response()->json(['success' => false, 'message' => 'Tidak dapat membatalkan laporan yang sudah diproses'], 400);
         }
 
-        $report->delete();
+        $report->delete(); // Status histories and attachments cascade on delete from DB level/Logic
 
         return response()->json([
             'success' => true,

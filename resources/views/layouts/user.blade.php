@@ -18,7 +18,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-        // Set Auth token synchronously to prevent race conditions during DOMContentLoaded
         const token = localStorage.getItem('auth_token');
         if (token) {
             axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;

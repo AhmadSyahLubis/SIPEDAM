@@ -23,7 +23,6 @@ class DashboardController extends Controller
             'aktif' => Service::where('user_id', $userId)->whereIn('status', ['menunggu', 'diproses'])->count(),
         ];
 
-        // Ambil 5 riwayat aktivitas terbaru gabungan (sederhana menggunakan array merge lalu sort, idealnya di union tapi karena struktur beda kita pakai collection merge)
         $latestReports = Report::with('category')->where('user_id', $userId)->latest()->take(5)->get()->map(function ($item) {
             $item->type = 'Pengaduan';
             return $item;

@@ -182,7 +182,6 @@ function renderTable(data) {
         const userNik = item.user ? item.user.nik : '-';
         const catName = item.category ? item.category.name : '-';
         
-        // Serialize item for onclick attribute to pass to modal
         const itemJson = encodeURIComponent(JSON.stringify(item));
         
         tbody.innerHTML += `
@@ -239,7 +238,6 @@ function renderPagination(meta) {
 function openDetailModal(itemJsonEncoded) {
     const item = JSON.parse(decodeURIComponent(itemJsonEncoded));
     
-    // Set Detail Data
     document.getElementById('detail-ticket').textContent = item.ticket_number;
     document.getElementById('detail-user-avatar').src = item.user && item.user.avatar ? '/storage/' + item.user.avatar : `https://ui-avatars.com/api/?name=${encodeURIComponent(item.user ? item.user.name : 'N')}&background=random`;
     document.getElementById('detail-user-name').textContent = item.user ? item.user.name : 'Unknown User';
@@ -252,7 +250,6 @@ function openDetailModal(itemJsonEncoded) {
     document.getElementById('detail-description').textContent = item.description;
     document.getElementById('detail-location').textContent = item.location || 'Tidak ada lokasi';
     
-    // Attachment
     const attContainer = document.getElementById('detail-attachment-container');
     if (item.attachments && item.attachments.length > 0) {
         attContainer.style.display = 'block';
@@ -304,7 +301,6 @@ function openDetailModal(itemJsonEncoded) {
         timelineContainer.innerHTML = '<li class="text-sm text-gray-500 text-center w-full pb-4">Belum ada jejak status</li>';
     }
     
-    // Form prepopulate
     document.getElementById('report_id').value = item.id;
     document.getElementById('update_status').value = ''; 
     document.getElementById('update_notes').value = item.admin_notes || '';

@@ -257,10 +257,8 @@ function renderPagination(meta) {
     
     let html = '<div class="join shadow-sm">';
     
-    // Prev
     html += `<button class="join-item btn btn-sm ${meta.current_page === 1 ? 'btn-disabled' : ''}" onclick="loadReports(${meta.current_page - 1})">«</button>`;
     
-    // Pages
     for(let i = 1; i <= meta.last_page; i++) {
         if (i === 1 || i === meta.last_page || (i >= meta.current_page - 1 && i <= meta.current_page + 1)) {
             html += `<button class="join-item btn btn-sm ${meta.current_page === i ? 'btn-active' : ''}" onclick="loadReports(${i})">${i}</button>`;
@@ -269,7 +267,6 @@ function renderPagination(meta) {
         }
     }
     
-    // Next
     html += `<button class="join-item btn btn-sm ${meta.current_page === meta.last_page ? 'btn-disabled' : ''}" onclick="loadReports(${meta.current_page + 1})">»</button>`;
     
     html += '</div>';
